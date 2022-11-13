@@ -1,6 +1,6 @@
 # some text is here
 lets do some shitt
-
+futur is comming 
 lets do some changes in git 
 Yeghishe Harutyunyan
-local repoooooooooooooooooooooooooooo
+local repooooooooooooooooooooooooo
