@@ -1,6 +1,6 @@
 Yeghishe 
 Harutyunyan
 age 40
-malee 
+male
 address in my loction 
 The world is beautiful       
