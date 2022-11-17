@@ -2,5 +2,5 @@ Yeghishe
 Harutyunyan
 age 40
 male 
-adress in my loction 
+address in my loction 
 The world is beatiful 
