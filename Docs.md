@@ -3,4 +3,4 @@ Harutyunyan
 age 40
 male 
 address in my loction 
-The world is beatiful 
+The world is beautiful       
