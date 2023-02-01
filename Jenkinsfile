@@ -11,9 +11,7 @@ pipeline {
         stage("run step") {
             steps {
                 script {
-                    docker.image("my-image:${env.BUILD_ID}").withRun('-p 5000:80') {    
-                    
-                    }
+                    sh "docker run -tid -p 5000:80 my-image:${env.BUILD_ID}"
                 }
             }
         }
