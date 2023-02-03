@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "ubuntu"
+        label "Ubuntu-C"
     }
     stages {
         stage('Build step') {
