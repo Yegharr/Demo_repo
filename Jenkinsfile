@@ -5,7 +5,7 @@ pipeline {
     stages {
         stage('Build step') {
             steps {
-                script { 
+                script {
                     def customImage = docker.build("my-image:custom", "-f nginx/Dockerfile .")
                 }
             }
