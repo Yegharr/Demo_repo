@@ -1,5 +1,5 @@
 pipeline {
-    agent NodeB
+    agent {label "ubuntu"}
     stages {
         stage('Build step') {
             steps {
@@ -12,7 +12,7 @@ pipeline {
         stage("run step") {
             steps {
                 script {
-                    sh "docker run -tid -p 5000:80 my-image:${env.BUILD_ID}"
+                    sh "docker run -tid -p 80:80 my-image:${env.BUILD_ID}"
                 }
             }
         }
