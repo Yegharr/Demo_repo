@@ -13,7 +13,7 @@ pipeline {
         stage("run step") {
             steps {
                 script {
-                    sh "docker run -tid -p 80:80 --rm nginx:custom"
+                    sh "docker run -tid -p 80:80 --rm  nginx:custom"
                 }
             }
         }
