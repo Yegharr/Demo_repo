@@ -6,14 +6,14 @@ pipeline {
         stage('Build step') {
             steps {
                 script {
-                    def customImage = docker.build("nginx-im:custom","-f nginx/Dockerfile .")
+                    def customImage = docker.build("nginx:custom","-f nginx/Dockerfile .")
                 }
             }
         }
         stage("run step") {
             steps {
                 script {
-                    sh "docker run -tid -p 80:80 nginx-im:custom"
+                    sh "docker run -tid -p 80:80 --rm nginx:custom"
                 }
             }
         }
