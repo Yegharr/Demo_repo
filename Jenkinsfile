@@ -1,6 +1,6 @@
 pipeline {
     agent {
-        label "Ubuntu-C"
+        label "Ubuntu-B"
     }
     stages {
         stage('Build step') {
@@ -13,7 +13,7 @@ pipeline {
         stage("Run step") {
             steps {
                 script {
-                    def command = "./script.sh"
+                    
                     sh "docker run -tid -p 80:80 --name=test_container nginx:${env.BUILD_ID}"
                 }
             }
