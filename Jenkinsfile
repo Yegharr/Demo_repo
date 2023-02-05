@@ -5,13 +5,11 @@ pipeline {
     stages {
         stage('Build step') {
             steps {
-                script {
-                   
-                   #Check docker container if exist remove it 
-                   sh 
-                   "if [$(docker ps -a -q -f name=testcontainer)]; then 
-                    docker rm -f testcontainer
-                    fi "
+                script {               
+                   sh  "if [$(docker ps -a -q -f name=testcontainer)]; then 
+                        docker rm -f testcontainer
+                        fi "
+                        
                     def customImage = docker.build("nginx:${env.BUILD_ID}","-f nginx/Dockerfile .")
                 }
             }
