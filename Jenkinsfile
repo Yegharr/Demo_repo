@@ -13,7 +13,7 @@ pipeline {
         stage("Run step") {
             steps {
                 script {
-                    sh "docker rm -f \$(docker ps -a -q)"
+                    def command = "./script.sh"
                     sh "docker run -tid -p 80:80 --name=test_container nginx:${env.BUILD_ID}"
                 }
             }
