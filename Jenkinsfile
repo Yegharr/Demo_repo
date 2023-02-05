@@ -13,8 +13,8 @@ pipeline {
         stage("Run step") {
             steps {
                 script {
-                    
-                    sh "docker run -tid -p 80:80 --name=test_container nginx:${env.BUILD_ID}"
+                    sh "./script.sh"
+                    sh "docker run -tid -p 80:80 --name test_container nginx:${env.BUILD_ID}"
                 }
             }
         }
