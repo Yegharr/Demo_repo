@@ -7,8 +7,7 @@ pipeline {
             steps {
                 script {               
                    sh  container_name="test_container"
-                    if docker ps -a | grep -q $container_name; then
-                    # Remove the container
+                    if $(docker ps -a | grep -q $container_name); then
                     docker rm -f $container_name
                     fi
                     def customImage = docker.build("nginx:${env.BUILD_ID}","-f nginx/Dockerfile .")
