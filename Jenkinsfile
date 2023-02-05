@@ -6,7 +6,7 @@ pipeline {
         stage('Build step') {
             steps {
                 script {               
-                   def container_name= "test_container"
+                   def container_name = "test_container"
                     sh "if docker ps -a | grep -q ${container_name}; then
                         docker rm -f ${container_name}
                         fi"
@@ -14,7 +14,7 @@ pipeline {
                 }
             }
         }
-        stage("run step") {
+        stage("Run step") {
             steps {
                 script {
                     sh "docker run -tid -p 80:80 --name=${container_name}  nginx:${env.BUILD_ID}"
@@ -23,4 +23,3 @@ pipeline {
         }
     }
 }
-
