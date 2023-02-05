@@ -7,9 +7,9 @@ pipeline {
             steps {
                 script {               
                    sh  container_name="test_container"
-                    if $(docker ps -a | grep -q $container_name); then
+                    "if $(docker ps -a | grep -q $container_name); then
                     docker rm -f $container_name
-                    fi
+                    fi"
                     def customImage = docker.build("nginx:${env.BUILD_ID}","-f nginx/Dockerfile .")
                 }
             }
