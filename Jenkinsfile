@@ -15,6 +15,7 @@ pipeline {
             steps {
                 script {
                     container_name ="test_container"
+
                     def command = "./script.sh"
 
                     sh "docker run -tid -p 80:80 --name=${container_name}  nginx:${env.BUILD_ID}"
