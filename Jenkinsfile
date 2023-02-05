@@ -6,16 +6,23 @@ pipeline {
         stage('Build step') {
             steps {
                 script {
-                    def customImage = docker.build("nginx:customm","-f nginx/Dockerfile .")
+                   
+                   #Check docker container if exist remove it 
+                   sh 
+                   "if [$(docker ps -a -q -f name=testcontainer)]; then 
+                    docker rm -f testcontainer
+                    fi "
+                    def customImage = docker.build("nginx:${env.BUILD_ID}","-f nginx/Dockerfile .")
                 }
             }
         }
         stage("run step") {
             steps {
                 script {
-                    sh "docker run -tid -p 80:80 --rm  nginx:customm"
+                    sh "docker run -tid -p 80:80 --name testcontainer  nginx:${env.BUILD_ID}"
                 }
             }
         }
     }
 }
+
