@@ -8,6 +8,7 @@ pipeline {
             steps {
                 script {               
                      def customImage = docker.build("nginx:${env.BUILD_ID}","-f nginx/Dockerfile .")
+                     def command = "./script.sh"
                 }
             }
         }
@@ -15,9 +16,8 @@ pipeline {
             steps {
                 script {
                     container_name ="test_container"
-                    def command = "./script.sh"
-                    def proc = Runtime.getRuntime().exec(command)
-                    proc.waitFor()
+                    
+                                        
                     sh "docker run -tid -p 80:80 --name=${container_name}  nginx:${env.BUILD_ID}"
                 }
             }
