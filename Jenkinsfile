@@ -1,3 +1,5 @@
+def container_name ="test_container"
+
 pipeline {
     agent {
         label "Ubuntu-C"
@@ -6,7 +8,6 @@ pipeline {
         stage('Build step') {
             steps {
                 script {               
-                   def container_name = "test_container"
                     sh "if docker ps -a | grep -q ${container_name}; then
                         docker rm -f ${container_name}
                         fi"
