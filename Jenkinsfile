@@ -21,7 +21,7 @@ pipeline {
             steps {
                 script {
                     sh "./script.sh"
-                    sh "docker run -tid -p 80:80 --name test_container nginx:${env.BUILD_ID}"
+                    sh "docker run -tid -p 80:80 --name test_container ${DOCKER_USER}/nginx:${env.BUILD_ID}"
                 }
             }
         }
