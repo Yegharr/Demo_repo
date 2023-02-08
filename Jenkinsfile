@@ -6,10 +6,17 @@ pipeline {
         stage('Build step') {
             steps {
                 script {
-                    def customImage = docker.build("nginx:${env.BUILD_ID}", "-f nginx/Dockerfile .")
+                withCredentials([string(credentialsId:'docker-user', variable:'DOCKER_USER'),
+                                string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
+                sh "echo" ${DOCKER_PASS} | docker login --username ${DOCKER_USER}  --password-stdin"
+                docker.withRegistry("https://index.docker.io")
+                def customImage = docker.build("${DOCKER_USER}/nginx:${env.BUILD_ID}", "-f nginx/Dockerfile .")
+
+                }
                 }
             }
         }
+
 
         stage("Run step") {
             steps {
