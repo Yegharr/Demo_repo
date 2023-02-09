@@ -1,14 +1,8 @@
-pipleline {
-    agent  {
-        ssh {
-            host = '83.139.6.98'
-            user = 'jenkins'
-            password = 'secret'
-            port = 2214
-        }
+pipeline {
+    agent {
+        label "Ubuntu-B"
     }
-
-stages {
+    stages {
         stage('Build step') {
             steps {
                 script {
