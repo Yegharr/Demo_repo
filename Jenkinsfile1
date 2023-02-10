@@ -24,16 +24,15 @@ stages {
         stage("Run step") {
             steps {
                 script {
-                     withCredentials([usernamePassword(credentialsId: 'ssh_user', passwordVariable: 'password', usernameVariable: 'userName')]) {
-                    // withCredentials([sshUserPrivateKey(credentialsId: 'ssh_user', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
+                     withCredentials([sshUserPrivateKey(credentialsId: 'ssh_userr', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                     remote.user = userName
-                    remote.password = password
-                    sshCommand remote: remote, command: 
-                    //if docker ps -a | grep -q 'test_container'; then
-                    //docker rm -f test_container
-                    //'''
-                    'echo "hello world"'
-                    //sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
+                    remote.identityFile = identity
+                    sshCommand remote: remote, command: '''
+                    if docker ps -a | grep -q 'test_container'; then
+                    docker rm -f test_container
+                    '''
+                    
+                    sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
                     }
                 }
             }
