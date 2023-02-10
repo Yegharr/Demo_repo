@@ -1,11 +1,6 @@
 pipleline {
-    agent  {
-        ssh {
-            host = '192.168.20.14'
-            user = 'jenkins'
-            password = 'secret'
-            port = 22
-        }
+    agent {
+        label "Ubuntu-B"
     }
 
 stages {
