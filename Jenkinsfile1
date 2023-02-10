@@ -1,0 +1,43 @@
+def remote = [:]
+remote['name'] = "ubuntu-B"
+remote['host'] = "8.139.6.98"
+remote['allowAnyHosts'] = true
+remote['port'] = 2214
+
+pipeline {
+    agent any
+stages {
+        stage('Build step') {
+            steps {
+                script {
+                withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER'),
+                                string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
+                sh "echo ${DOCKER_PASS} | docker login --username ${DOCKER_USER}  --password-stdin"
+                docker.withRegistry("https://index.docker.io") {
+                def customImage = docker.build("${DOCKER_USER}/nginx:${env.BUILD_ID}", "-f nginx/Dockerfile .")
+                customImage.push()
+                }
+                }
+            }
+        }
+    }
+        stage("Run step") {
+            steps {
+                script {
+                    //withCredentials([usernamePassword(credentialsId: 'ssh_connection', passwordVariable: 'password', usernameVariable: 'username')]) {
+                   withCredentials([string(credentialsId:'ssh_user', variable:'username'),
+                    string(credentialsId:'ssh_pass',variable:'password')]) {
+                    // passwordVariable: 'password', usernameVariable: 'username' 
+                    remote.user = "username"
+                    remote.password = "password"
+                    sshCommand remote: remote, command: '''
+                    if docker ps -a | grep -q 'test_container'; then
+                    docker rm -f test_container
+                    '''
+                    sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
+                    }
+                }
+            }
+        }
+    }
+}
