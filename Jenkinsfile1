@@ -27,12 +27,13 @@ stages {
                     withCredentials([usernamePassword(credentialsId: 'ssh_user', passwordVariable: 'password', usernameVariable: 'userName')]) {
                     remote.user = userName
                     remote.password = password
-                    sshCommand remote: remote, command: //'''
-                    //if docker ps -a | grep -q 'test_container'; then
-                   // docker rm -f test_container
-                    //'''
-                    'echo "hello"'
-                    //sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
+                    sshCommand remote: remote, command: '''
+                        if docker ps -a | grep 'test_container'; then
+                        docker rm -f test_container
+                        docker rm -f $container_name
+                        fi '''
+
+                    sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
                     }
                 }
             }
