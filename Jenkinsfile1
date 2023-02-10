@@ -1,7 +1,7 @@
 def remote = [:]
-remote.host = "83.139.6.98:2214"
+remote.host = "83.139.6.98"
 remote.allowAnyHosts = true
-
+remote.port = "2214"
 pipeline {
     agent any
 stages {
