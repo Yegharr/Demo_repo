@@ -1,8 +1,8 @@
 def remote = [:]
-remote['name'] = "ubuntu-B"
-remote['host'] = "8.139.6.98"
-remote['allowAnyHosts'] = true
-remote['port'] = 2214
+remote.name = "server"
+remote.host = "8.139.6.98"
+remote.allowAnyHosts = true
+remote.port= 2214
 
 pipeline {
     agent any
@@ -24,13 +24,10 @@ stages {
         stage("Run step") {
             steps {
                 script {
-                    //withCredentials([usernamePassword(credentialsId: 'ssh_connection', passwordVariable: 'password', usernameVariable: 'username')]) {
-                   withCredentials([string(credentialsId:'ssh_user', variable:'username'),
-                    string(credentialsId:'ssh_pass',variable:'password')]) {
-                    // passwordVariable: 'password', usernameVariable: 'username' 
-                    remote.user = "username"
-                    remote.password = "password"
-                    sshCommand remote: remote, command: '''
+                withCredentials([sshUserPrivateKey(credentialsId: 'identity', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'username')]) { 
+                remote.user = username
+                remote.identityFile = identity
+                sshCommand remote: remote, command: '''
                     if docker ps -a | grep -q 'test_container'; then
                     docker rm -f test_container
                     '''
