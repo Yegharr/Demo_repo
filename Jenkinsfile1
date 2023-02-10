@@ -24,10 +24,10 @@ stages {
         stage("Run step") {
             steps {
                 script {
-                     withCredentials([usernamePassword(credentialsId: 'ssh_userr', passwordVariable: 'ssh_pass', usernameVariable: 'ssh_user')]) {
+                     withCredentials([usernamePassword(credentialsId: 'ssh_userr', passwordVariable: 'password', usernameVariable: 'userName')]) {
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ssh_user', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
-                    remote.user = ssh_user
-                    remote.password = ssh_pass
+                    remote.user = userName
+                    remote.password = password
                     sshCommand remote: remote, command: '''
                     if docker ps -a | grep -q 'test_container'; then
                     docker rm -f test_container
