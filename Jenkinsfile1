@@ -5,7 +5,10 @@ remote.allowAnyHosts = true
 remote.port= 2214
 
 pipeline {
-    agent any
+    agent {
+        any
+    }
+    
 stages {
         stage('Build step') {
             steps {
