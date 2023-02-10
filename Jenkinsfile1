@@ -1,5 +1,5 @@
 def remote = [:]
-remote.host = "192.168.20.14"
+remote.host = "83.139.6.98:2214"
 remote.allowAnyHosts = true
 
 pipeline {
