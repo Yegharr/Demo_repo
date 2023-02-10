@@ -1,10 +1,10 @@
 pipleline {
     agent  {
         ssh {
-            host = '83.139.6.98'
+            host = '192.168.20.14'
             user = 'jenkins'
             password = 'secret'
-            port = 2214
+            port = 22
         }
     }
 

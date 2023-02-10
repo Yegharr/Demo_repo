@@ -22,7 +22,11 @@ pipeline {
                 script {
                     withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER'),
                                 string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
-                    sh "./script.sh"
+                    shhCommand remote: remote, command: '''
+                    container_name="test_container"
+                    if docker ps -a | grep -q $container_name; then
+                    docker rm -f $container_name
+                    fi '''
                     sh "docker run -tid -p 80:80 --name test_container ${DOCKER_USER}/nginx:${env.BUILD_ID}"
                     }
                 }
