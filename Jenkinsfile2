@@ -23,10 +23,10 @@ pipeline {
                     withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER'),
                                 string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
                     shhCommand remote: remote, command: '''
-                    container_name="test_container"
-                    if docker ps -a | grep -q $container_name; then
-                    docker rm -f $container_name
-                    fi '''
+                    if docker ps -a | grep -q 'test_container'; then
+                    docker rm -f test_container
+                    fi 
+                    '''
                     sh "docker run -tid -p 80:80 --name test_container ${DOCKER_USER}/nginx:${env.BUILD_ID}"
                     }
                 }
