@@ -24,7 +24,7 @@ stages {
         stage("Run step") {
             steps {
                 script {
-                     withCredentials([usernamePassword(credentialsId: 'ssh_userr', passwordVariable: 'password', usernameVariable: 'userName')]) {
+                     withCredentials([usernamePassword(credentialsId: 'ssh_user', passwordVariable: 'password', usernameVariable: 'userName')]) {
                     // withCredentials([sshUserPrivateKey(credentialsId: 'ssh_user', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'userName')]) {
                     remote.user = userName
                     remote.password = password
