@@ -2,7 +2,6 @@ pipleline {
     agent {
         label "Ubuntu-B"
     }
-
 stages {
         stage('Build step') {
             steps {
