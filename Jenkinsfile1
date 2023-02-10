@@ -1,52 +1,40 @@
+def remote = [:]
+remote.name = "servers"
+remote.host = "8.139.6.98"
+remote.allowAnyHosts = true
+
+
 pipeline {
     agent any
 stages {
-    stage('Build step') {
-        steps {
-            script {
+        stage('Build step') {
+            steps {
+                script {
                 withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER'),
                                 string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
                 sh "echo ${DOCKER_PASS} | docker login --username ${DOCKER_USER}  --password-stdin"
                 docker.withRegistry("https://index.docker.io") {
                 def customImage = docker.build("${DOCKER_USER}/nginx:${env.BUILD_ID}", "-f nginx/Dockerfile .")
                 customImage.push()
-                    }
-                    }
-                } 
+                }
+                }
             }
         }
     }
-            
-}       
-    
-        stage('Deploy') {
-           steps { 
-            def remoteServer = [
-            user: 'yegharr',
-            host: '83.139.6.98',
-            allowAnyHosts: true
-            ]
-            withCredentials([sshUserPrivateKey(credentialsId: 'identity', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'username')]) { 
-               remote.user = userName
-               remote.identityFile = identity
-            sshCommand remoteServer: '''
+        stage("Run step") {
+            steps {
+                script {
+                withCredentials([sshUserPrivateKey(credentialsId: 'identity', keyFileVariable: 'identity', passphraseVariable: '', usernameVariable: 'username')]) { 
+                remote.user = username
+                remote.identityFile = identity
+                sshCommand remote: remote, command: '''
                     if docker ps -a | grep -q 'test_container'; then
                     docker rm -f test_container
                     '''
-            sshCommand remoteServer, 'docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}'
-            
+                    sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
+                    }
+                }
             }
         }
     }
-       
-
-
-
-
-
-
-
-
-
-
-
+}
