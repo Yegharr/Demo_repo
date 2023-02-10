@@ -6,9 +6,9 @@ remote.port= 2214
 
 pipeline {
     agent {
-        any
+        label "server"
     }
-    
+
 stages {
         stage('Build step') {
             steps {
