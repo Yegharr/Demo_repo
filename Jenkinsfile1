@@ -32,7 +32,7 @@ stages {
                     //if docker ps -a | grep -q 'test_container'; then
                     //docker rm -f test_container
                     //'''
-                    echo "hello world"
+                    sh "echo "hello world""
                     //sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
                     }
                 }
