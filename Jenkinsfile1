@@ -1,0 +1,43 @@
+def remote = [:]
+remote.name = "Ubuntu-B"
+remote.host = "192.168.20.14"
+remote.allowAnyHosts = true
+
+pipeline {
+    agent {
+        any
+    }
+stages {
+        stage('Build step') {
+            steps {
+                script {
+                withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER'),
+                                string(credentialsId:'docker_pass',variable:'DOCKER_PASS')]) {
+                sh "echo ${DOCKER_PASS} | docker login --username ${DOCKER_USER}  --password-stdin"
+                docker.withRegistry("https://index.docker.io") {
+                def customImage = docker.build("${DOCKER_USER}/nginx:${env.BUILD_ID}", "-f nginx/Dockerfile .")
+                customImage.push()
+                }
+                }
+            }
+        }
+    }
+        stage("Run step") {
+            steps {
+                script {
+                    withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER')]),
+                    withCredentials([usernamePassword(credentialsId: 'ssh_user', )]) {
+                    // passwordVariable: 'password', usernameVariable: 'username' 
+                    //remote.user = username
+                    //remote.password = password
+                    sshCommand remote: remote, command: '''
+                    if docker ps -a | grep -q 'test_container'; then
+                    docker rm -f test_container
+                    '''
+                    sh "docker run -tid -p 80:80 --name test_container ${DOCKER_USER}/nginx:${env.BUILD_ID}"
+                    }
+                }
+            }
+        }
+    }
+}
