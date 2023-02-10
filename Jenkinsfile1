@@ -5,7 +5,9 @@ remote.allowAnyHosts = true
 
 
 pipeline {
-    agent any
+    agent {
+        lable servers
+    }
 stages {
         stage('Build step') {
             steps {
