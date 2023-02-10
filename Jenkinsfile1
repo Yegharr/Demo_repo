@@ -1,9 +1,9 @@
-node {
-    def server = "83.139.6.98"
-    def sshPort = 2214
-    def username = 'yegharr'
-    def password = 'Alliance2023'
-}
+def remote = [:]
+remote['name'] = "ubuntu-B"
+remote['host'] = "8.139.6.98"
+remote['allowAnyHosts'] = true
+remote['port'] = 2214
+
 pipeline {
     agent any
 stages {
@@ -25,8 +25,8 @@ stages {
             steps {
                 script {
                     //withCredentials([usernamePassword(credentialsId: 'ssh_connection', passwordVariable: 'password', usernameVariable: 'username')]) {
-                   //withCredentials([string(credentialsId:'ssh_user', variable:'username_ssh'),
-                    //string(credentialsId:'ssh_pass',variable:'password_ssh')]) {
+                   withCredentials([string(credentialsId:'ssh_user', variable:'username'),
+                    string(credentialsId:'ssh_pass',variable:'password')]) {
                     // passwordVariable: 'password', usernameVariable: 'username' 
                     remote.user = "username"
                     remote.password = "password"
