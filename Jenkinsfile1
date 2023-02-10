@@ -1,5 +1,4 @@
 def remote = [:]
-remote.name = "Ubuntu-B"
 remote.host = "192.168.20.14"
 remote.allowAnyHosts = true
 
