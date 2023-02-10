@@ -1,4 +1,5 @@
 def remote = [:]
+remote.name = "ubuntu-B"
 remote.host = "83.139.6.98"
 remote.allowAnyHosts = true
 remote.port = "2214"
