@@ -25,7 +25,6 @@ stages {
         stage("Run step") {
             steps {
                 script {
-                    withCredentials([string(credentialsId:'docker_user', variable:'DOCKER_USER')]),
                     withCredentials([usernamePassword(credentialsId: 'ssh_user', )]) {
                     // passwordVariable: 'password', usernameVariable: 'username' 
                     //remote.user = username
@@ -34,7 +33,7 @@ stages {
                     if docker ps -a | grep -q 'test_container'; then
                     docker rm -f test_container
                     '''
-                    sh "docker run -tid -p 80:80 --name test_container ${DOCKER_USER}/nginx:${env.BUILD_ID}"
+                    sh "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
                     }
                 }
             }
