@@ -33,7 +33,7 @@ stages {
                         fi '''
 
                     sshCommand remote: remote, command: "docker run -tid -p 80:80 --name test_container yegharr/nginx:${env.BUILD_ID}"
-                    sh " docker rmi -f $(docker images -aq) "
+                    sh " docker rmi yegharr/nginx:${env.BUILD_ID}* -f "
                     }
                 }
             }
